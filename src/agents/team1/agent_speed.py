@@ -75,7 +75,7 @@ class AgentSpeed(KartAgent):
             dict: Action corrigé (accélération bornée via `gap`).
         """
 
-        act["acceleration"] = max(act["acceleration"], 1)
+        act["acceleration"] = max(act["acceleration"], -1)
         max_steer_angle = obs["max_steer_angle"]
 
         # ligne droite
@@ -84,21 +84,21 @@ class AgentSpeed(KartAgent):
 
             direction_segment = obs["paths_end"][0] - obs["paths_start"][0]
             if direction_segment[1] > 0.05:
-                act["acceleration"] = np.clip(act["acceleration"], 0.1, 1)      #self.limit(act["acceleration"] + 0.2)
+                act["acceleration"] = np.clip(act["acceleration"], -0.1, -1)      #self.limit(act["acceleration"] + 0.2)
             return act
 
         # virage serré
         if max_steer_angle <= self.conf.max_steer_angle_petit:
             acceleration_freinee = act["acceleration"] - self.conf.frein_virage
-            act["acceleration"] = np.clip(acceleration_freinee, 0.1, 1)
+            act["acceleration"] = np.clip(acceleration_freinee, -0.1, -1)
 
         elif max_steer_angle >= self.conf.max_steer_angle_grand:
             acceleration_boostee = act["acceleration"] + self.conf.accel_virage
-            act["acceleration"] = np.clip(acceleration_boostee, 0.1, 1)
+            act["acceleration"] = np.clip(acceleration_boostee, -0.1, -1)
 
         direction_segment = obs["paths_end"][0] - obs["paths_start"][0]
         if direction_segment[1] > 0.05:
-            act["acceleration"] = np.clip(act["acceleration"], 0.1, 1) 
+            act["acceleration"] = np.clip(act["acceleration"], -0.1, -1) 
 
         return act
   
