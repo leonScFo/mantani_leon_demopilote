@@ -24,13 +24,13 @@ class Agent1(KartAgent):
         path_conf = Path(__file__).resolve().parent
         path_conf = str(path_conf) + '/ConfigFileTeam1.yaml'   #Chemin du fichier de configuration
         self.conf = OmegaConf.load(path_conf)                           #Importation du fichier de configuration
-
-        self.agentCenter = AgentCenter(env, self.conf, self.path_lookahead)
-        self.agentSpeed = AgentSpeed(env, self.conf, self.agentCenter, self.path_lookahead)
-        self.agentObstacles = AgentObstacles(env, self.conf, self.agentSpeed, self.path_lookahead)
-        self.agentRescue = AgentRescue(env, self.conf, self.agentObstacles)
-        self.agentItems = AgentItems(env, self.conf, self.agentRescue)
-        self.AgentDrift = AgentDrift(env, self.conf, self.agentItems)
+        self.step=0
+        #self.agentCenter = AgentCenter(env, self.conf, self.path_lookahead)
+        #self.agentSpeed = AgentSpeed(env, self.conf, self.agentCenter, self.path_lookahead)
+        #self.agentObstacles = AgentObstacles(env, self.conf, self.agentSpeed, self.path_lookahead)
+        #self.agentRescue = AgentRescue(env, self.conf, self.agentObstacles)
+        #self.agentItems = AgentItems(env, self.conf, self.agentRescue)
+        #self.AgentDrift = AgentDrift(env, self.conf, self.agentItems)
 
     def reset(self):
         self.obs, _ = self.env.reset()
@@ -40,4 +40,38 @@ class Agent1(KartAgent):
         return self.isEnd
 
     def choose_action(self, obs):
-        return self.agentItems.choose_action(obs)
+        action = {
+            "acceleration": 1.0,
+            "steer": 1.0,
+            "brake": False, # bool(random.getrandbits(1)),
+            "drift": False,
+            "nitro": False,
+            "rescue":False,
+            "fire": False,
+        }
+        return action
+        self.step+=1
+        print(self.step)
+        if step <=7:
+            action = {
+                "acceleration": 1.0,
+                "steer":1.0,
+                "brake": True, # bool(random.getrandbits(1)),
+                "drift": bool(random.getrandbits(1)),
+                "nitro": bool(random.getrandbits(1)),
+                "rescue":bool(random.getrandbits(1)),
+                "fire": bool(random.getrandbits(1)),
+            }
+            return action
+        else:
+            action = {
+                "acceleration": 1.0,
+                "steer": 0.0,
+                "brake": True, # bool(random.getrandbits(1)),
+                "drift": bool(random.getrandbits(1)),
+                "nitro": bool(random.getrandbits(1)),
+                "rescue":bool(random.getrandbits(1)),
+                "fire": bool(random.getrandbits(1)),
+            }
+            return action
+        #return self.agentItems.choose_action(obs)

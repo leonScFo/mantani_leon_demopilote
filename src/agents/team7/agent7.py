@@ -11,7 +11,8 @@ class Agent7(KartAgent):
         self.agent_positions = []
         self.obs = None
         self.isEnd = False
-        self.name = "Team7" # replace with your chosen name
+        self.name = "mantani_leon" # replace with your chosen name
+        self.step=0
 
     def reset(self):
         self.obs, _ = self.env.reset()
@@ -21,15 +22,27 @@ class Agent7(KartAgent):
         return self.isEnd
 
     def choose_action(self, obs):
-        acceleration = random.random()
-        steering = random.random()
-        action = {
-            "acceleration": acceleration,
-            "steer": steering,
-            "brake": False, # bool(random.getrandbits(1)),
-            "drift": bool(random.getrandbits(1)),
-            "nitro": bool(random.getrandbits(1)),
-            "rescue":bool(random.getrandbits(1)),
-            "fire": bool(random.getrandbits(1)),
-        }
-        return action
+        self.step+=1
+        print(self.step)
+        if step >= 200:
+            action = {
+                "acceleration": 0.0,
+                "steer": 0.0,
+                "brake": True, # bool(random.getrandbits(1)),
+                "drift": bool(random.getrandbits(1)),
+                "nitro": bool(random.getrandbits(1)),
+                "rescue":bool(random.getrandbits(1)),
+                "fire": bool(random.getrandbits(1)),
+            }
+            return action
+        else:
+            action = {
+                "acceleration": 1.0,
+                "steer": 0.0,
+                "brake": True, # bool(random.getrandbits(1)),
+                "drift": bool(random.getrandbits(1)),
+                "nitro": bool(random.getrandbits(1)),
+                "rescue":bool(random.getrandbits(1)),
+                "fire": bool(random.getrandbits(1)),
+            }
+            return action
