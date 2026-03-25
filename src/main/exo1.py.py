@@ -24,8 +24,8 @@ from agents.team6.agent6 import Agent6
 from agents.team7.agent7 import Agent7
 from pystk2_gymnasium.envs import STKRaceMultiEnv, AgentSpec
 from pystk2_gymnasium.definitions import CameraMode
+MAX_TEAMS = 1#afficher seulement le team6, soit nombre de team affiche = 1
 
-MAX_TEAMS = 7
 MAX_STEPS = 1000
 NB_RACES = 1
 
@@ -100,7 +100,7 @@ def create_race():
 
     agents = []
     names = []
-
+    """"
     agents.append(Agent1(env, path_lookahead=3))
     agents.append(Agent2(env, path_lookahead=3))
     agents.append(Agent3(env, path_lookahead=3))
@@ -109,7 +109,9 @@ def create_race():
     agents.append(Agent6(env, path_lookahead=3))
     agents.append(Agent7(env, path_lookahead=3))
     np.random.shuffle(agents)
-
+    """
+    agents.append(Agent6(env, path_lookahead=3)) # on veut avoir seulement le team6
+    
     for i in range(MAX_TEAMS):
         names.append(agents[i].name)
         agents_specs[i].name = agents[i].name
@@ -118,6 +120,7 @@ def create_race():
 
 
 def single_race(env, agents, names, scores):
+    print("mantani-leon")
     obs, _ = env.reset()
     done = False
     steps = 0
