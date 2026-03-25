@@ -111,7 +111,7 @@ def create_race():
     """
     
     agents.append(Agent7(env, path_lookahead=3))
-    np.random.shuffle(agents)
+    #np.random.shuffle(agents)
 
     for i in range(MAX_TEAMS):
         names.append(agents[i].name)
